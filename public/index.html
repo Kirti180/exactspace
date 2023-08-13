@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JSON Form</title>
+    <style>
+        /* Add some basic styling to format the layout */
+        body {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-container,
+        .response-container {
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            background-color: rgb(245, 184, 53);
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        #response {
+            color: white;
+            font-size: 18px;
+            width: 90%;
+            margin: auto;
+            display: flex;
+            gap: 2%;
+        }
+
+        #jsonTextarea {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 5px;
+            color: white;
+            font-size: 20px;
+            width: 95%;
+            margin: auto;
+            background-color: black;
+        }
+
+        button {
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+            font-size: 18px;
+            border: none;
+            padding: 1.5%;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        #key {
+            background-color: white;
+            color: black;
+            padding: 1%;
+            border-radius: 5px;
+        }
+
+        #value {
+            padding: 1%;
+            width: 70%;
+            /* margin: auto; */
+            border: 3px solid black;
+        }
+        #response{
+            color: black;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form id="jsonForm">
+                <textarea id="jsonTextarea" name="jsonData" rows="5" cols="40" required>{"hello":"world"}</textarea><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="response-container">
+            <pre id="response"></pre>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('jsonForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const jsonData = document.getElementById('jsonTextarea').value;
+            const responseContainer = document.getElementById('response');
+            responseContainer.textContent = ''; // Clear previous response
+
+            try {
+                const parsedData = JSON.parse(jsonData); // Attempt to parse JSON
+                const response = await fetch('/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ jsonData })
+                });
+
+                const jsonResponse = await response.json();
+                for (const key in jsonResponse) {
+                    if (jsonResponse.hasOwnProperty(key)) {
+                        const keyElement = document.createElement('h3');
+                        keyElement.setAttribute("id", "key")
+                        keyElement.textContent = key;
+                        responseContainer.appendChild(keyElement);
+
+                        const valueElement = document.createElement('h3');
+                        valueElement.setAttribute("id", "value")
+                        valueElement.textContent = jsonResponse[key];
+                        responseContainer.appendChild(valueElement);
+                    }
+                }
+            } catch (error) {
+                responseContainer.textContent = 'Error: Invalid JSON data';
+            }
+        });
+    </script>
+</body>
+
+</html>

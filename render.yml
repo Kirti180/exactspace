@@ -1,0 +1,13 @@
+version: 1
+build:
+  name: test
+  dockerfile: Dockerfile
+  context: ./
+  publish: /app
+
+services:
+- name: test-service
+  region: us-east
+  docker:
+    image: $RENDER_DOCKER_IMAGE
+    port: 3000

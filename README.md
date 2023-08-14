@@ -1,13 +1,17 @@
 # Project Name
 Exactspace
  
-
+# Techstack
+- HTML
+- CSS
+- JavaScript
+- Docker
 ## Description
 
 The web application where the HTML page presents the submitted JSON data in a more visually appealing manner
 
 ## Getting Started
-
+deployed on render
 https://exactspace-7anx.onrender.com
 
 

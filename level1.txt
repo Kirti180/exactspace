@@ -7,7 +7,7 @@
 3] get the largest log file
 ==> find /c -type f -name "*.log" -exec ls -lh {} + | sort -k 5 -rh | head -n 1
 
-4] open the log file
+4] open the log file(before running command  you need to go to that subdirectory)
 ==> cat browser1.log
 
 5] truncate it to 100 lines

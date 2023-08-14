@@ -1,0 +1,15 @@
+1] find all the .log files in my computer using bash.
+==> find /c -type f -name "*.log"
+
+2] file size of all these  .log files
+==> find /c -type f -name "*.log" -exec ls -lh {} \;
+
+3] get the largest log file
+==> find /c -type f -name "*.log" -exec ls -lh {} + | sort -k 5 -rh | head -n 1
+
+4] open the log file
+==> cat browser1.log
+
+5] truncate it to 100 lines
+==> head -n 100 browser1.log(from top)
+==> tail -n 100 browser1.log(from bottom)
